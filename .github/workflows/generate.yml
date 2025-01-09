@@ -1,0 +1,73 @@
+name: generate
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: "0 * * * *"
+
+permissions:
+  pages: write
+  id-token: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      HTDOCS_DIR: ${{ github.workspace }}/build/htdocs
+      CACHE_DIR: ${{ github.workspace }}/build/cache
+      CACHE_KEY: build-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Restore
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{env.CACHE_DIR}}
+          key: ${{env.CACHE_KEY}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Generate
+        run: poetry run python mdnews.py
+
+      - name: Cache Clean
+        if: ${{ github.ref_name == 'main' }}
+        run: |
+          gh extension install actions/gh-actions-cache
+          if gh cache list --key ${{env.CACHE_KEY}} | grep -q  ${{env.CACHE_KEY}}; then
+            gh actions-cache delete ${{env.CACHE_KEY}} --confirm
+          fi
+
+      - name: Cache Save
+        uses: actions/cache/save@v4
+        if: ${{ github.ref_name == 'main' }}
+        with:
+          path: ${{env.CACHE_DIR}}
+          key: ${{env.CACHE_KEY}}
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        if: ${{ github.ref_name == 'main' }}
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        if: ${{ github.ref_name == 'main' }}
+        with:
+          path: ${{ env.HTDOCS_DIR }}
+
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v4

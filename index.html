@@ -1,0 +1,32 @@
+<html lang="hu">
+  <head>
+    <title>Hírek</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
+    <link rel="icon" type="image/png" href="mdnews.png" />
+    <style>
+      body {
+        max-width: 1152px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          background: #0d1117;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <zero-md src="README.md">
+      <template data-append>
+        <style>
+          img {
+            max-width: 75% !important;
+          }
+        </style>
+      </template>
+    </zero-md>
+  </body>
+</html>

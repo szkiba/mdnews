@@ -1,0 +1,27 @@
+- name: telex
+  url: https://telex.hu/rss
+  skip: false
+
+- name: index-techtud
+  url: https://index.hu/techtud/rss
+  skip: false
+
+- name: index-belfold
+  url: https://index.hu/belfold/rss
+  skip: false
+
+- name: index-kulfold
+  url: https://index.hu/kulfold/rss
+  skip: false
+
+- name: magyarnemzet
+  url: https://magyarnemzet.hu/publicapi/hu/rss/magyar_nemzet/articles
+  skip: false
+
+- name: origo
+  url: https://www.origo.hu/publicapi/hu/rss/origo/articles
+  skip: true
+
+- name: HWSW
+  url: https://www.hwsw.hu/xml/latest_news_rss.xml
+  skip: false
