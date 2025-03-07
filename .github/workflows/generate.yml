@@ -9,7 +9,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 5 * * *"
 
 permissions:
   actions: write
@@ -45,8 +45,24 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
+      - name: Install pandoc
+        uses: pandoc/actions/setup@v1
+
       - name: Generate
         run: poetry run python mdnews.py
+
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: mdnews
+          to: ${{secrets.MAIL_TO}}
+          from: ${{secrets.MAIL_FROM}}
+          body: News update
+          attachments: build/htdocs/news.epub
 
       - name: Cache Clean
         if: ${{ github.ref_name == 'main' }}
