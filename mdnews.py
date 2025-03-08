@@ -357,5 +357,7 @@ with open(os.path.join(htdocs_dir, "README.md"), "w") as out:
 
         out.write(art.markdown_details())
 
-write_cover(datetime.datetime.today())
-write_ebook()
+today = datetime.datetime.today()
+
+write_cover(today)
+write_ebook(today)
