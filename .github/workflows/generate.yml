@@ -68,7 +68,7 @@ jobs:
           to: ${{secrets.MAIL_TO}}
           from: ${{secrets.MAIL_FROM}}
           body: Latest news
-          attachments: build/htdocs/${{steps.date.outputs.date}}.epub
+          attachments: build/htdocs/news-${{steps.date.outputs.date}}.epub
 
       - name: Cache Clean
         if: ${{ github.ref_name == 'main' }}

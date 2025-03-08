@@ -318,9 +318,9 @@ def write_cover(date: datetime.datetime):
         file.write(svg.replace("YYYY-MM-DD", f'{date.date()}'))
 
 
-def write_ebook():
+def write_ebook(date: datetime.datetime):
     subprocess.run(["pandoc", "--epub-cover-image=cover.svg", "--toc",
-                   "--toc-depth=1", "-o", "news.epub", "--from=markdown",  "--to=epub",  "news.md"], cwd=htdocs_dir)
+                   "--toc-depth=1", "-o", f"news-{date.date()}.epub", "--from=markdown",  "--to=epub",  "news.md"], cwd=htdocs_dir)
 
 
 with open(os.path.join(htdocs_dir, "news.md"), "w") as out:
