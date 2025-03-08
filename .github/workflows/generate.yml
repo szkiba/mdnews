@@ -54,7 +54,7 @@ jobs:
       - name: Date
         id: date
         run: |
-          echo "date=$(date -I)" > $GITHUB_OUTPUT
+          echo "date=$(date -I)" >> $GITHUB_OUTPUT
 
       - name: Send mail
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
