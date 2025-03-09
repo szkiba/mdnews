@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      HTDOCS_DIR: ${{ github.workspace }}/build/htdocs
+      CONTENT_DIR: ${{ github.workspace }}/build/conetnt
       CACHE_DIR: ${{ github.workspace }}/build/cache
       CACHE_KEY: build-cache
     steps:
@@ -49,7 +49,7 @@ jobs:
         uses: pandoc/actions/setup@v1
 
       - name: Generate
-        run: poetry run python mdnews.py
+        run: poetry run python -m mdnews
 
       - name: Date
         id: date
@@ -68,7 +68,7 @@ jobs:
           to: ${{secrets.MAIL_TO}}
           from: ${{secrets.MAIL_FROM}}
           body: Latest news
-          attachments: build/htdocs/news-${{steps.date.outputs.date}}.epub
+          attachments: build/content/news-${{steps.date.outputs.date}}.epub
 
       - name: Cache Clean
         if: ${{ github.ref_name == 'main' }}
@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         if: ${{ github.ref_name == 'main' }}
         with:
-          path: ${{ env.HTDOCS_DIR }}
+          path: ${{ env.CONTENT_DIR }}
 
       - name: Deploy Pages
         uses: actions/deploy-pages@v4
