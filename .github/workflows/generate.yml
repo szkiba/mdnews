@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      CONTENT_DIR: ${{ github.workspace }}/build/conetnt
+      CONTENT_DIR: ${{ github.workspace }}/build/content
       CACHE_DIR: ${{ github.workspace }}/build/cache
       CACHE_KEY: build-cache
     steps:
